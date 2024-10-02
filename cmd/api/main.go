@@ -7,7 +7,7 @@ import (
 
 func main() {
 	server := app.NewServer()
-	log.Println("Starting server...")
+	log.Println("Starting server...", server.Addr)
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
