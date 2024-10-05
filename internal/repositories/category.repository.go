@@ -3,7 +3,7 @@ package repositories
 import (
 	"errors"
 	"gorm.io/gorm"
-	"restaurant_management/internal/models/dto"
+	"restaurant_management/internal/models/dtos"
 	"restaurant_management/internal/models/entities"
 )
 

@@ -12,8 +12,9 @@ type CategoryUpdateRequest struct {
 }
 
 type CategorySearch struct {
-	filters map[string]any
-	page    int
+	Filters map[string]any
+	Page    int
+	Limit   int
 }
 
 type CategoryResponse struct {
