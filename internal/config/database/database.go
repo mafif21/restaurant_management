@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"restaurant_management/internal/models/entities"
 	"time"
 )
 
@@ -20,6 +21,8 @@ func NewDB() (*gorm.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
+
+	db.AutoMigrate(&entities.Category{}, &entities.Menu{})
 
 	sqlDB, err := db.DB()
 	if err != nil {
