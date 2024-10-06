@@ -2,12 +2,16 @@ package app
 
 import (
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"restaurant_management/internal/config/database"
+	"restaurant_management/internal/controllers"
+	"restaurant_management/internal/repositories"
 	"restaurant_management/internal/routes"
+	"restaurant_management/internal/services"
 	"strconv"
 	"time"
 )
@@ -44,9 +48,15 @@ func NewServer() *http.Server {
 		db:   db,
 	}
 
+	validator := validator.New()
+
+	categoryRepository := repositories.NewCategoryImpl(NewServer.db)
+	categoryService := services.NewCategoryServiceImpl(categoryRepository, validator)
+	categoryController := controllers.NewCategoryControllerImpl(categoryService)
+
 	server := http.Server{
 		Addr:              fmt.Sprintf(":%d", NewServer.port),
-		Handler:           routes.Routes(),
+		Handler:           routes.Routes(categoryController),
 		ReadTimeout:       5 * time.Second,
 		ReadHeaderTimeout: 5 * time.Second,
 		WriteTimeout:      5 * time.Second,

@@ -15,12 +15,12 @@ type CategoryRepository interface {
 	Delete(categoryId string) error
 }
 
-func NewCategoryImpl(db *gorm.DB) CategoryRepository {
-	return &CategoryRepositoryImpl{db: db}
-}
-
 type CategoryRepositoryImpl struct {
 	db *gorm.DB
+}
+
+func NewCategoryImpl(db *gorm.DB) CategoryRepository {
+	return &CategoryRepositoryImpl{db: db}
 }
 
 func (r CategoryRepositoryImpl) FindAll(filters map[string]any, page int, limit int) ([]entities.Category, *dto.Pagination, error) {

@@ -21,6 +21,13 @@ type CategoryServiceImpl struct {
 	validator          *validator.Validate
 }
 
+func NewCategoryServiceImpl(categoryRepository repositories.CategoryRepository, validator *validator.Validate) CategoryService {
+	return &CategoryServiceImpl{
+		categoryRepository: categoryRepository,
+		validator:          validator,
+	}
+}
+
 func (s CategoryServiceImpl) FindAll(request *dto.CategorySearch) ([]dto.CategoryResponse, *dto.Pagination, error) {
 	var allCategory []dto.CategoryResponse
 

@@ -4,14 +4,17 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
+	"restaurant_management/internal/controllers"
 )
 
-func Routes() http.Handler {
+func Routes(categoryController controllers.CategoryController) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
+	r.Route("/api", func(r chi.Router) {
+		r.Route("/category", func(r chi.Router) {
+			r.Get("/", categoryController.GetAll)
+		})
 	})
 
 	return r
