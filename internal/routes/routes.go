@@ -12,8 +12,9 @@ func Routes(categoryController controllers.CategoryController) http.Handler {
 	r.Use(middleware.Logger)
 
 	r.Route("/api", func(r chi.Router) {
-		r.Route("/category", func(r chi.Router) {
+		r.Route("/categories", func(r chi.Router) {
 			r.Get("/", categoryController.GetAll)
+			r.Get("/{categoryId}", categoryController.GetById)
 		})
 	})
 

@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/go-playground/validator/v10"
+	"log"
 	"restaurant_management/internal/models/converters"
 	"restaurant_management/internal/models/dtos"
 	"restaurant_management/internal/models/entities"
@@ -46,7 +47,7 @@ func (s CategoryServiceImpl) FindAll(request *dto.CategorySearch) ([]dto.Categor
 func (s CategoryServiceImpl) FindById(categoryId string) (*dto.CategoryResponse, error) {
 	category, err := s.categoryRepository.FindById(categoryId)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal("data not found")
 	}
 
 	converter := converters.ContactToResponse(category)

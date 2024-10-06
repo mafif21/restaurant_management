@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"fmt"
+	"github.com/go-chi/chi/v5"
+	"log"
 	"net/http"
 	"restaurant_management/internal/config"
 	dto "restaurant_management/internal/models/dtos"
@@ -57,21 +60,32 @@ func (c CategoryControllerImpl) GetAll(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	response := dto.Response{
+	response := &dto.Response{
 		Status:  http.StatusOK,
 		Message: "success get all categories",
 		Data: map[string]any{
-			"categories": categories,
-			"paging":     pagination,
+			"data":   categories,
+			"paging": pagination,
 		},
 	}
 
-	config.WriteToBodyResponse(w, &response)
+	config.WriteToBodyResponse(w, response)
 }
 
 func (c CategoryControllerImpl) GetById(w http.ResponseWriter, r *http.Request) {
-	//TODO implement me
-	panic("implement me")
+	categoryId := chi.URLParam(r, "categoryId")
+	category, err := c.categoryService.FindById(categoryId)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	response := &dto.Response{
+		Status:  http.StatusOK,
+		Message: fmt.Sprintf("category %s has been found", category.Name),
+		Data:    category,
+	}
+
+	config.WriteToBodyResponse(w, response)
 }
 
 func (c CategoryControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
